@@ -13,7 +13,7 @@ import Spinner from './Spinner';
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from './firebase';
 import rootReducer from './reducers';
-import { setUser } from './actions';
+import { setUser, clearUser } from './actions';
 
 const store = createStore(rootReducer, composeWithDevTools());
 
@@ -23,6 +23,9 @@ class Root extends React.Component {
       if (user) {
         this.props.setUser(user);
         this.props.history.push(ROUTES.HOME);
+      } else {
+        this.props.history.push(ROUTES.LOGIN);
+        this.props.clearUser();
       }
     });
   }
@@ -45,7 +48,7 @@ const mapStateFromProps = state => ({
 const RootWithAuth = withRouter(
   connect(
     mapStateFromProps, 
-    { setUser }
+    { setUser, clearUser }
     )(Root)
   );
 
