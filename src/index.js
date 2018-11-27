@@ -9,6 +9,7 @@ import * as ROUTES from './constants/routes';
 import App from './components/App';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import Spinner from './Spinner';
 import registerServiceWorker from './registerServiceWorker';
 import Firebase from './firebase';
 import rootReducer from './reducers';
@@ -20,7 +21,6 @@ class Root extends React.Component {
   componentDidMount() {
     Firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log(user);
         this.props.setUser(user);
         this.props.history.push(ROUTES.HOME);
       }
@@ -28,7 +28,7 @@ class Root extends React.Component {
   }
 
   render() {
-    return (
+    return this.props.isLoading ? <Spinner /> : (
       <Switch> 
         <Route exact path={ROUTES.HOME} component={App} />
         <Route path={ROUTES.LOGIN} component={Login} />
@@ -38,7 +38,16 @@ class Root extends React.Component {
   }
 }
 
-const RootWithAuth = withRouter(connect(null, { setUser })(Root));
+const mapStateFromProps = state => ({
+  isLoading: state.user.isLoading
+});
+
+const RootWithAuth = withRouter(
+  connect(
+    mapStateFromProps, 
+    { setUser }
+    )(Root)
+  );
 
 ReactDOM.render(
   <Provider store={store}>
