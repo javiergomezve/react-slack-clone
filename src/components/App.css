@@ -10,7 +10,7 @@ html, body, .app {
   overflow-y: scroll;
 }
 
-/* MEssageForm.js */
+/* MessageForm.js */
 .message__form {
   position: fixed !important;
   bottom: 1em;
@@ -18,4 +18,10 @@ html, body, .app {
   left: 0;
   right: 1em;
   z-index: 200;
+}
+
+/* Message.js */
+.message__self {
+  border-left: 2px solid orange;
+  padding-left: 8px;
 }
