@@ -3,6 +3,7 @@ import { Segment, Button, Input } from "semantic-ui-react";
 import uuidv4 from 'uuid/v4';
 import firebase from '../../firebase';
 import FileModal from './FileModal';
+import ProgressBar from './ProgressBar';
 
 class MessagesForm extends Component {
   state = {
@@ -84,7 +85,7 @@ class MessagesForm extends Component {
     }, () => {
       this.state.uploadTask.on('state_changed', snap => {
         const percentageUploaded = Math.round((snap.bytesTransferred / snap.totalBytes) * 100);
-
+        this.props.isProgressBarVisible(percentageUploaded);
         this.setState({ percentageUploaded });
       }, err => {
         console.error(err);
@@ -127,7 +128,7 @@ class MessagesForm extends Component {
   };
 
   render() {
-    const { errors, message, loading, modal } = this.state;
+    const { errors, message, loading, modal, uploadState, percentageUploaded } = this.state;
     return (
       <Segment className="message__form">
         <Input fluid name="message" style={{ marginBottom: '0.7em' }} label={<Button icon={'add'} />}
@@ -140,10 +141,12 @@ class MessagesForm extends Component {
             <Button color="orange" content="Add Reply" labelPosition="left" icon="edit"
               onClick={this.sendMessage} disabled={loading} />
             <Button color="teal" content="Upload Media" labelPosition="right" icon="cloud upload"
-              onClick={this.openModal} />
-
-            <FileModal modal={modal} closeModal={this.closeModal} uploadFile={this.uploadFile} />
+              onClick={this.openModal} disabled={uploadState === "uploading"} />
           </Button.Group>
+
+          <FileModal modal={modal} closeModal={this.closeModal} uploadFile={this.uploadFile} />
+
+          <ProgressBar uploadState={uploadState} percentageUploaded={percentageUploaded} />
       </Segment>
     );
   }
