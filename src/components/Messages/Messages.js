@@ -7,6 +7,7 @@ import MessagesHeader from './MessagesHeader';
 import MessageForm from './MessageForm';
 import Message from './Message';
 import Typing from './Typing';
+import Skeleton from './Skeleton';
 
 class Messages extends Component {
   state = {
@@ -231,10 +232,19 @@ class Messages extends Component {
     ))
   );
 
+  displayMessageSkeleton = loading => (
+    loading ? (
+      <React.Fragment>
+        {[...Array(10)].map((_, i) => (
+          <Skeleton key={i} />
+        ))}
+      </React.Fragment>
+    ) : null );
+
   render() {
     const { messagesRef, channel, user, messages, progressBar, numUniqueUsers, 
       searchTerm, searchResults, searchLoading, privateChannel, isChannelStarred,
-      typingUsers } = this.state;
+      typingUsers, messagesLoading } = this.state;
 
     return (
       <React.Fragment>
@@ -245,6 +255,7 @@ class Messages extends Component {
 
         <Segment>
           <Comment.Group className={progressBar ? 'messages__progress' : 'messages'}>
+            {this.displayMessageSkeleton(messagesLoading)}
             {
               searchTerm 
                 ? this.displayMessages(searchResults)
