@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Form, Segment, Button, Header, Message, Icon, GridColumn } from "semantic-ui-react";
+import { Grid, Form, Segment, Button, Header, Message, Icon } from "semantic-ui-react";
 import md5 from 'md5';
 import { LOGIN } from '../../constants/routes';
 import Firebase from '../../firebase';
@@ -133,7 +133,7 @@ class Register extends Component {
                   placeholder="Passwod Confirmation" onChange={this.handleChange} type="password"
                   className={this.handleInputError(errors, 'password')} />
 
-              <Button disabled={loading} className={loading ? 'loading' : ''} 
+              <Button disabled={loading} className={loading ? 'loading' : ''}
                   color="orange" fluid size="large">
                     Submit
                   </Button>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import { Grid, Form, Segment, Button, Header, Message, Icon, GridColumn } from "semantic-ui-react";
+import { Grid, Form, Segment, Button, Header, Message, Icon } from "semantic-ui-react";
 import Firebase from '../../firebase';
 import { REGISTER } from '../../constants/routes';
 
@@ -67,7 +67,7 @@ class Login extends Component {
                   placeholder="Passwod" onChange={this.handleChange} type="password"
                   className={this.handleInputError(errors, 'password')} />
 
-              <Button disabled={loading} className={loading ? 'loading' : ''} 
+              <Button disabled={loading} className={loading ? 'loading' : ''}
                   color="violet" fluid size="large">
                     Submit
                   </Button>

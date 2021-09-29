@@ -98,7 +98,7 @@ class Messages extends Component {
       const index = typingUsers.findIndex(user => user.id === snap.key);
       if (index !== -1) {
         typingUsers = typingUsers.filter(user => user.id !== snap.key);
-        
+
         this.setState({ typingUsers });
       }
     });
@@ -125,7 +125,7 @@ class Messages extends Component {
 
     ref.child(channelId).on('child_added', snap => {
       loadedMessages.push(snap.val());
-      
+
       this.setState({
         messages: loadedMessages,
         messagesLoading: false
@@ -197,7 +197,7 @@ class Messages extends Component {
     const channelMessages = [...this.state.messages];
     const regex = new RegExp(this.state.searchTerm, 'gi');
     const searchResults = channelMessages.reduce((acc, message) => {
-      if (message.content && message.content.match(regex) || message.user.name.match(regex)) {
+      if ((message.content && message.content.match(regex)) || message.user.name.match(regex)) {
         acc.push(message);
       }
 
@@ -272,13 +272,13 @@ class Messages extends Component {
     ) : null );
 
   render() {
-    const { messagesRef, channel, user, messages, progressBar, numUniqueUsers, 
+    const { messagesRef, channel, user, messages, progressBar, numUniqueUsers,
       searchTerm, searchResults, searchLoading, privateChannel, isChannelStarred,
       typingUsers, messagesLoading } = this.state;
 
     return (
       <React.Fragment>
-        <MessagesHeader channelName={this.displayChannelName(channel)} numUniqueUsers={numUniqueUsers} 
+        <MessagesHeader channelName={this.displayChannelName(channel)} numUniqueUsers={numUniqueUsers}
           handleSearchChange={this.handleSearchChange} searchLoading={searchLoading}
           isPrivateChannel={privateChannel} handleStar={this.handleStar}
           isChannelStarred={isChannelStarred} />
@@ -287,7 +287,7 @@ class Messages extends Component {
           <Comment.Group className={progressBar ? 'messages__progress' : 'messages'}>
             {this.displayMessageSkeleton(messagesLoading)}
             {
-              searchTerm 
+              searchTerm
                 ? this.displayMessages(searchResults)
                 : this.displayMessages(messages)
             }
@@ -296,10 +296,10 @@ class Messages extends Component {
           </Comment.Group>
         </Segment>
 
-        <MessageForm 
-          messagesRef={messagesRef} 
-          currentChannel={channel} 
-          currentUser={user} 
+        <MessageForm
+          messagesRef={messagesRef}
+          currentChannel={channel}
+          currentUser={user}
           isProgressBarVisible={this.isProgressBarVisible}
           isPrivateChannel={privateChannel}
           getMessagesRef={this.getMessagesRef}
